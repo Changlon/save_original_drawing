@@ -1,5 +1,15 @@
-import {G} from './test'
+// import koa from "koa" 
+// import koaRouter from "koa-router"
+// import { registe } from "./wechat/registe" 
 
-export const a = 1
-export const b = 2
-console.log(G)
+import  wechats from "./wechat" 
+
+
+(async()=>{
+
+   const wehcatMap =  await wechats()  
+
+})()
+
+
+

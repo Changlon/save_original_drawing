@@ -8,9 +8,9 @@
   "author": "'Changlon' <'changlong.a2@gmail.com'> (https://github.com/Changlon/)",
   "license": "MIT",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon src/index.js --watch server --exec babel-node",
-    "start": "cross-env NODE_ENV=production node build/file_exist.js && node dist/app.js",
-    "test": "mocha --require babel-register --bail",
+    "dev": "cross-env NODE_ENV=development nodemon src/index.js  server --exec babel-node",
+    "start": "node build/file_exist.js && node dist/app.js",
+    "test": "cross-env NODE_ENV=development mocha --require babel-register --bail test/**/*.test.js",
     "build": "rimraf dist && webpack"
   },
   "devDependencies": {
@@ -23,5 +23,13 @@
     "rimraf": "3.0.2",
     "webpack": "5.70.0",
     "webpack-cli": "4.9.2"
+  },
+  "dependencies": {
+    "axios": "0.26.0",
+    "koa": "2.13.4",
+    "koa-bodyparser": "4.3.0",
+    "koa-router": "10.1.1",
+    "koa-wechat-public": "0.1.10",
+    "koa-xml-body": "2.2.0"
   }
 }
