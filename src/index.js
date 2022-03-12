@@ -15,8 +15,6 @@ import  commonRouter from "./route"
        await  next() 
    })
 
-
-
    //开启公众号接入
    const wechatIter = wehcatMap.values() 
    while(1) {
