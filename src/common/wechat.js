@@ -16,6 +16,33 @@ export const getWechatServers = async () => request.get("/wechatServer")
 
 
 
+/**
+ * 添加一个用户任务
+ * @param {*} param0 
+ * @returns 
+ */
+export const queueTask = async ({wechatid,openid,link,shortcode,type})=> request.post("/wechatTask",{
+    wechatid,
+    openid,
+    link,
+    shortcode,
+    type
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

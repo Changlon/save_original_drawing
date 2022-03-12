@@ -9,9 +9,12 @@
 export default  [
     {
         type:"text",
+        pattern:"test", 
+        wechatId:"gh_170e65c7bd09",
         handler:async acc=>{ 
-            acc.send.sendTextMsg("ok") 
+            acc.send.sendTxtMsg("完成")
         }
+
     }
 ]
 

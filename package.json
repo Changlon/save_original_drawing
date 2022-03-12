@@ -9,9 +9,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon src/index.js  server --exec babel-node",
-    "start": "node build/file_exist.js && node dist/app.js",
+    "start": "node build/file_exist.js && node target/app.js",
     "test": "cross-env NODE_ENV=development mocha --require babel-register --bail test/**/*.test.js",
-    "build": "rimraf dist && webpack"
+    "build": "rimraf target && webpack"
   },
   "devDependencies": {
     "babel-cli": "6.26.0",
@@ -29,7 +29,7 @@
     "koa": "2.13.4",
     "koa-bodyparser": "4.3.0",
     "koa-router": "10.1.1",
-    "koa-wechat-public": "0.1.10",
+    "koa-wechat-public": "0.1.9",
     "koa-xml-body": "2.2.0"
   }
 }
