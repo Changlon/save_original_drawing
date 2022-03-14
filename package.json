@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon src/index.js  server --exec babel-node",
     "start": "node build/file_exist.js && node target/app.js",
-    "test": "cross-env NODE_ENV=development mocha --require babel-register --bail test/**/*.test.js",
+    "test": "cross-env NODE_ENV=development mocha --require babel-register --bail test/**/*.test.js -t 10000 -s 2000",
     "build": "rimraf target && webpack"
   },
   "devDependencies": {
@@ -29,7 +29,7 @@
     "koa": "2.13.4",
     "koa-bodyparser": "4.3.0",
     "koa-router": "10.1.1",
-    "koa-wechat-public": "0.1.9",
+    "koa-wechat-public": "0.1.10",
     "koa-xml-body": "2.2.0"
   }
 }

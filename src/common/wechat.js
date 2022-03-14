@@ -12,7 +12,7 @@ import request from "../api"
  * 获取公众号列表
  * @returns 
  */
-export const getWechatServers = async () => request.get("/wechatServer") 
+export const getWechatServers = async () => request("/wechatServer")   
 
 
 

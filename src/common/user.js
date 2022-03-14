@@ -9,6 +9,7 @@
  import request from "../api" 
 
 
+ 
 
  /**
   * 用户关注
@@ -17,15 +18,18 @@
   * @param {*} detail 
   * @returns 
   */
- export const userSub = async detail =>request.post("/user",{detail})  
+ export const userSub = async detail => request("/user",detail,"post",true)
 
+ 
 
  /**
   * 用户取消关注
   * @param {*} openid 
   * @returns 
   */
-export const userUnSub = async openid => request.delete("/user",{openid}) 
+export const userUnSub = async openid => request("/user",{openid},"delete",true)
+
+
 
 
  

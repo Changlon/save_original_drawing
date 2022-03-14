@@ -25,9 +25,10 @@ export default  [
             detail.nickname = detail.nickname || `原存图用户`,
             //TODO : 添加默认头像url 
             detail.headimgurl = detail.headimgurl || ""  
+            detail.wechatid = acc.toUser
             const resData = await userSub(detail)   
             if(resData.code === 0 && resData.msg === "ok") await  acc.send.pushTxtCustomerMsg(acc.fromUser,constant.INITIAL_LINK) 
-            else if(resData.code === 0 && resData.msg === "exist") await  acc.send.pushTxtCustomerMsg(acc.fromUser,constant.WELCOME_RESUB)  
+            else if(resData.code === 1 && resData.msg === "exist") await  acc.send.pushTxtCustomerMsg(acc.fromUser,constant.WELCOME_RESUB)  
         }
 
     },
