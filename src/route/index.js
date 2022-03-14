@@ -6,11 +6,15 @@
  */
 
 import Router from "koa-router"   
-const router = new Router({prefix:"/api/mession/common"})  
+import BodyParser from "koa-bodyparser" 
 
-router.get("/test",(ctx)=>{ 
-    console.log(ctx.wehcatMap)
-})
+import {
+    taskNotify
+} from "./notify"
+
+const router = new Router({prefix:"/api/mession/common"})  
+router.use(BodyParser()) 
+router.post(taskNotify.path,taskNotify)  
 
 
 export default router 

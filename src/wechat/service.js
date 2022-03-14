@@ -6,11 +6,14 @@
  */
 
 import constant from "./constant"
+import {
+    parseInsLink
+} from "./utils"
 
 import {
     userSub,
     userUnSub ,
-    queueTask,
+    addDownloadTask,
 } from "../common"
 
 export default  [
@@ -48,24 +51,7 @@ export default  [
     },
 
     // 业务消息 
-    {
-        type:'text',
-        pattern:constant.INSLINK_POST_REG,
-        handler: async acc =>{
-             acc.send.sendTxtMsg(constant.SEND_MEDIA_WATING)   
-             await queueTask({wechatid:acc.toUser,openid:acc.fromUser,link:acc.content})
-        }
-    },
-
-    {
-        type:'text',
-        pattern:constant.INSLINK_IGTV_REG,
-        handler: async acc =>{
-            acc.send.sendTxtMsg(constant.SEND_MEDIA_WATING)   
-            await queueTask({wechatid:acc.toUser,openid:acc.fromUser,link:acc.content})
-        }
-    },
-
+    
     {
         type:'text',
         pattern:/客服/g,
@@ -78,7 +64,14 @@ export default  [
         type:'text',
         pattern:/.+/,
         handler: async acc =>{
-            acc.send.sendTxtMsg(constant.SEND_OTHER_LINK_TIP)
+             const content = acc.content 
+             if(!constant.INSLINK_POST_REG.test(content) && !constant.INSLINK_IGTV_REG.test(content))  {
+                acc.send.sendTxtMsg(constant.SEND_OTHER_LINK_TIP)
+             }else{
+                const result = parseInsLink(content) 
+                result.wechat_id = acc.toUser , result.openid = acc.fromUser , result.scene = "wechat"
+                await addDownloadTask(result) 
+             }
         }
     },
 

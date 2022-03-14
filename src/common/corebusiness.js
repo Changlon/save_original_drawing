@@ -15,23 +15,18 @@
  * @param {*} param0 
  * @returns 
  */
-export const addDownloadTask = async ({wechat_id,openid,link,shortcode,type,scene = "wechat"})=> request.post("/downloadMessionInfo",{
-    wechat_id,
-    openid,
-    link,
-    shortcode,
-    type,
-    scene
-})
 
+
+
+export const addDownloadTask = async (data) => request("/downloadMessionInfo",data,"post")
 
 
 /**
- * 用户下次成功
+ * 通知中间服务器用户下次成功
  * @param {*} openid 
  * @returns 
  */
-export const downloadSuccess = async openid => request.post("/downloadSuccess",{openid})
+export const downloadSuccess = async openid => request("/downloadSuccess",{openid},"post")
 
 
 
