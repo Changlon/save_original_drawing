@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon src/index.js  server --exec babel-node",
     "start": "node build/file_exist.js && node target/app.js",
-    "test": "cross-env NODE_ENV=development mocha --require babel-register --bail test/**/*.test.js -t 10000 -s 2000",
+    "test": "cross-env NODE_ENV=development mocha --require babel-register --bail test/**/*.test.js -t 25000 -s 2000",
     "build": "rimraf target && webpack"
   },
   "devDependencies": {

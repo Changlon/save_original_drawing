@@ -1,12 +1,68 @@
 
 import { expect } from "chai"
 import { it } from "mocha" 
+import path from "path"
 
 import {
-    parseInsLink 
+    parseInsLink ,
+    sendMediaMsg
 } from "../src/wechat/utils"
 
+
+import wechatPub from "koa-wechat-public" 
+
 describe("测试公众号utils",()=>{  
+
+    
+
+
+
+    
+
+    describe("测试sendMediaMsg函数", ()=>{  
+
+        const wechatApp = new wechatPub({
+            appId:"wx3ace0c0fa2f4cab0",
+            appSecret:"8ea32e13460637765fb65a5e48b7c023",
+            token:"changlon"
+        })
+
+        let thumb_media_id
+        let openid = "oOskj6NqnCG1C1eBSh0cz6H7GEZE"
+        it("参数不正确应该返回 undefined ", done =>{
+            (async()=>{
+                let res = await sendMediaMsg({wechatApp:{},openid:"xxx",media:[]}) 
+                expect(res).to.be.undefined 
+                done()
+            })() 
+        })
+
+        it("可以发送图片媒体消息",done =>{
+            (async()=>{
+                let filepath =  path.join(__dirname,"/resource/image.png") 
+                let media = await wechatApp.addTmpMaterial(filepath,"image") 
+                thumb_media_id = media.media_id 
+                let res = await sendMediaMsg({wechatApp,openid,media}) 
+                expect(res).equal(1)  
+                done()
+            })()
+        })
+
+        it("可以发送视频媒体消息",done =>{ 
+            (async()=>{
+                let filepath =  path.join(__dirname,"/resource/video.mp4") 
+                let media = await wechatApp.addTmpMaterial(filepath,"video")   
+                media.thumb_media_id = thumb_media_id        
+                let res = await sendMediaMsg({wechatApp,openid,media})   
+                expect(res).equal(1)  
+                done()
+            })()
+        })
+
+
+       
+        
+    })
 
     describe("测试parseInsLink函数",()=>{
 
@@ -16,7 +72,6 @@ describe("测试公众号utils",()=>{
             expect(parseInsLink({})).to.be.undefined  
             
             // 1. 帖子链接 
-             
            let  result 
            result = parseInsLink("https://instagram.com/p/CJ0VfRFj76Z/?utm_medium=copy_link")  
            expect(result.link).equal("https://instagram.com/p/CJ0VfRFj76Z/?__a=1") 
@@ -59,7 +114,6 @@ describe("测试公众号utils",()=>{
            expect(result.link).equal("https://www.instagram.com/thv/?__a=1") 
            expect(result.type).equal("profile") 
            expect(result.username).equal("thv")
-           
 
         })
     })

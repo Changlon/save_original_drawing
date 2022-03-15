@@ -8,5 +8,6 @@ export default {
     SEND_CONTENT_UNIDENTIFIABLE:"该内容无法识别,仅支持下载链接!",
     INSLINK_POST_REG : new RegExp('http://www.instagram.com/p/.*/|https://www.instagram.com/p/.*/|http://www.instagram.com/reel/.*/|https://www.instagram.com/reel/.*/|http://www.instagram.com/.+/p/.*/|https://www.instagram.com/.+/p/.*/|http://www.instagram.com/.+/reel/.*/|https://www.instagram.com/.+/reel/.*/') ,
 	INSLINK_IGTV_REG : new RegExp('http://www.instagram.com/tv/.*/|https://www.instagram.com/tv/.*/|http://www.instagram.com/.+/tv/.*/|https://www.instagram.com/.+/tv/.*/'),
+    ISINSLINK: new RegExp('http(s)?://(www.)?instagram.com/')
 
 }

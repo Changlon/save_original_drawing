@@ -65,7 +65,7 @@ export default  [
         pattern:/.+/,
         handler: async acc =>{
              const content = acc.content 
-             if(!constant.INSLINK_POST_REG.test(content) && !constant.INSLINK_IGTV_REG.test(content))  {
+             if(!constant.ISINSLINK.test(constant) && !constant.INSLINK_POST_REG.test(content) && !constant.INSLINK_IGTV_REG.test(content))  {
                 acc.send.sendTxtMsg(constant.SEND_OTHER_LINK_TIP)
              }else{
                 const result = parseInsLink(content) 
