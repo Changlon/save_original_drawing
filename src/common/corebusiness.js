@@ -15,7 +15,7 @@
  * @param {*} param0 
  * @returns 
  */
-export const addDownloadTask = async (data) => request("/downloadMessionInfo",data,"post")
+export const addDownloadTask = async data => request("/downloadMessionInfo",data,"post")
 
 
 /**

@@ -14,11 +14,6 @@ import wechatPub from "koa-wechat-public"
 describe("测试公众号utils",()=>{  
 
     
-
-
-
-    
-
     describe("测试sendMediaMsg函数", ()=>{  
 
         const wechatApp = new wechatPub({

@@ -71,6 +71,7 @@ export default  [
                 const result = parseInsLink(content) 
                 result.wechat_id = acc.toUser , result.openid = acc.fromUser , result.scene = "wechat"
                 await addDownloadTask(result) 
+                //TODO : 根据接口请求判断是否提醒用户充值会员
              }
         }
     },

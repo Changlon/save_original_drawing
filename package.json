@@ -30,6 +30,7 @@
     "koa-bodyparser": "4.3.0",
     "koa-router": "10.1.1",
     "koa-wechat-public": "0.1.10",
-    "koa-xml-body": "2.2.0"
+    "koa-xml-body": "2.2.0",
+    "qs": "6.10.3"
   }
 }

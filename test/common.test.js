@@ -4,7 +4,9 @@ import { it } from "mocha"
 import {
     getWechatServers,
     userSub,
-    userUnSub
+    userUnSub,
+    addDownloadTask,
+    
 } from "../src/common"
 
 
@@ -14,7 +16,41 @@ import {
     isNotNullData
 } from "../build/common_valid"
 
+
+import {
+    parseInsLink
+} from "../src/wechat/utils"
+
+import axios from "axios"
+
+
+
 describe("接口测试",()=>{
+
+
+    describe("核心接口测试",()=>{ 
+
+       let openid = "oOskj6NqnCG1C1eBSh0cz6H7GEZE"
+       let wechat_id = "gh_170e65c7bd09"
+       
+        it("下发下载任务" , done=>{ 
+            (async ()=>{
+                let link = "https://www.instagram.com/p/tvejmfyxL3/?utm_medium=copy_link" 
+                let result = parseInsLink(link) 
+                let data = Object.assign({
+                    openid,
+                    wechat_id,
+                    scene:"wechat"
+                },result)
+                const res = await addDownloadTask(data)  
+                expect(isValidResponse(res)).to.be.true 
+                const codeValid= res.data.code === 200 || res.data.code === 500  
+                expect(codeValid).to.be.true
+                done()
+          })()
+        })
+    })
+    
 
     describe("公众号接口测试",()=>{
         it("获取公众号配置参数",done =>{ 
