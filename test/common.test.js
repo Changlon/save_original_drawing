@@ -36,7 +36,7 @@ describe("接口测试",()=>{
         it("下发下载任务" , done=>{ 
             (async ()=>{
                 let link = "https://www.instagram.com/p/tvejmfyxL3/?utm_medium=copy_link" 
-                let result = parseInsLink(link) 
+                let result = parseInsLink(link)  
                 let data = Object.assign({
                     openid,
                     wechat_id,
