@@ -23,15 +23,18 @@ export default  [
     {
         type:"subscribe",
         handler:async acc=>{ 
-            acc.send.sendTxtMsg(constant.SUBSCRIBE_INFO)  
-            const detail = await acc.consumer.getUserDetail(acc.fromUser) 
-            detail.nickname = detail.nickname || `原存图用户`,
-            //TODO : 添加默认头像url 
-            detail.headimgurl = detail.headimgurl || ""  
-            detail.wechatid = acc.toUser
-            const resData = await userSub(detail)   
-            if(resData.code === 0 && resData.msg === "ok") await  acc.send.pushTxtCustomerMsg(acc.fromUser,constant.INITIAL_LINK) 
-            else if(resData.code === 1 && resData.msg === "exist") await  acc.send.pushTxtCustomerMsg(acc.fromUser,constant.WELCOME_RESUB)  
+            await acc.send.sendTxtMsg(constant.SUBSCRIBE_INFO)  
+            setTimeout(async ()=>{
+                const detail = await acc.consumer.getUserDetail(acc.fromUser) 
+                detail.nickname = detail.nickname || `原存图用户`,
+                //TODO : 添加默认头像url 
+                detail.headimgurl = detail.headimgurl || ""  
+                detail.wechatid = acc.toUser 
+                const resData = (await userSub(detail)).data 
+                if(resData.code === 0 && resData.msg === "ok") await  acc.send.pushTxtCustomerMsg(acc.fromUser,constant.INITIAL_LINK) 
+                else if(resData.code === 1 && resData.msg === "exist") await  acc.send.pushTxtCustomerMsg(acc.fromUser,constant.WELCOME_RESUB)  
+            })
+          
         }
 
     },
@@ -66,12 +69,17 @@ export default  [
         handler: async acc =>{
              const content = acc.content 
              if(!constant.ISINSLINK.test(constant) && !constant.INSLINK_POST_REG.test(content) && !constant.INSLINK_IGTV_REG.test(content))  {
-                acc.send.sendTxtMsg(constant.SEND_OTHER_LINK_TIP)
+                await acc.send.sendTxtMsg(constant.SEND_OTHER_LINK_TIP)
              }else{
-                const result = parseInsLink(content) 
-                result.wechat_id = acc.toUser , result.openid = acc.fromUser , result.scene = "wechat"
-                await addDownloadTask(result) 
-                //TODO : 根据接口请求判断是否提醒用户充值会员
+                await acc.send.sendTxtMsg(constant.SEND_MEDIA_WATING)  
+                setTimeout(async ()=>{
+                    const result = parseInsLink(content) 
+                    result.wechat_id = acc.toUser , result.openid = acc.fromUser , result.scene = "wechat"
+                    const res =  (await addDownloadTask(result)).data
+                    if(res.code===500){
+                        acc.send.pushTxtCustomerMsg(acc.fromUser,res.msg)
+                    }
+                })
              }
         }
     },

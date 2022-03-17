@@ -5,7 +5,9 @@ import path from "path"
 
 import {
     parseInsLink ,
-    sendMediaMsg
+    sendMediaMsg , 
+    pushTxtCustomerMsgBatch,
+    uploadLocalFilesToWx
 } from "../src/wechat/utils"
 
 
@@ -13,17 +15,67 @@ import wechatPub from "koa-wechat-public"
 
 describe("测试公众号utils",()=>{  
 
+    const wechatApp = new wechatPub({
+        appId:"wx3ace0c0fa2f4cab0",
+        appSecret:"8ea32e13460637765fb65a5e48b7c023",
+        token:"changlon"
+    })
     
-    describe("测试sendMediaMsg函数", ()=>{  
+    let openid = "oOskj6NqnCG1C1eBSh0cz6H7GEZE"
 
-        const wechatApp = new wechatPub({
-            appId:"wx3ace0c0fa2f4cab0",
-            appSecret:"8ea32e13460637765fb65a5e48b7c023",
-            token:"changlon"
+
+    describe("测试uploadLocalFilesToWx函数",()=>{
+
+        it("可以批量上传本地文件到微信公众号素材库",done =>{
+
+            (async ()=>{
+
+                const file_path = path.resolve(__dirname,"./resource/image.png")
+                
+                const fileList = [
+                    {
+                        file_path ,
+                        file_type: "image"
+
+                    },
+
+                    {
+                        file_path ,
+                        file_type: "image"
+
+                    }
+                ]
+
+                const medias = await uploadLocalFilesToWx({wechatApp,fileList})
+
+                expect(medias.length).to.equal(fileList.length)
+
+                done()
+
+            })()
         })
+    })
 
+
+    describe("测试pushTxtCustomerMsgBatch函数",()=>{
+        it("可以成功批量发送消息", done =>{ 
+
+            (async ()=>{
+                const msgList = [
+                    "msg1",
+                    "msg2",
+                    "msg3"
+                ]
+               const successNum = await pushTxtCustomerMsgBatch({wechatApp,openid,msgList}) 
+               expect(successNum).equal(msgList.length)
+               done()
+            })()
+
+        })
+    })
+
+    describe("测试sendMediaMsg函数", ()=>{  
         let thumb_media_id
-        let openid = "oOskj6NqnCG1C1eBSh0cz6H7GEZE"
         it("参数不正确应该返回 undefined ", done =>{
             (async()=>{
                 let res = await sendMediaMsg({wechatApp:{},openid:"xxx",media:[]}) 
@@ -53,9 +105,6 @@ describe("测试公众号utils",()=>{
                 done()
             })()
         })
-
-
-       
         
     })
 
