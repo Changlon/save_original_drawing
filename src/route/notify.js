@@ -14,7 +14,7 @@ import { sendMediaMsg,pushTxtCustomerMsgBatch, uploadLocalFilesToWx } from "../w
  * @param {*} ctx 
  */
  export async function taskNotify(ctx) {    
-
+   
     const wechatMap = ctx.wechatMap 
     const req = ctx.request 
     const body = req.body 
@@ -22,8 +22,9 @@ import { sendMediaMsg,pushTxtCustomerMsgBatch, uploadLocalFilesToWx } from "../w
     // 获取用户 openid , wechatid  , total 链接包含的总资源数量
     const {openid,wechat_id,link,medias,locals,total} = body   
 
-    // 获取公众号实例 
-    const wechatApp = wechatMap.get(wechatid)  
+    if(!openid || !wechat_id || !link || !locals || !total) return  ctx.body = {code:500,msg:"参数不足"}
+    
+    const wechatApp = wechatMap.get(wechat_id)  
 
     if(typeof total === "number" && total > 0 ) {
         await wechatApp.pushTxtCustomerMsg(openid,`检测到${total}个资源`)
@@ -34,13 +35,15 @@ import { sendMediaMsg,pushTxtCustomerMsgBatch, uploadLocalFilesToWx } from "../w
 
         // 有媒体id 发送媒体id , 有视频资源 ？ 有发送链接或者小程序  
         if(medias) {
-             sendMediaMsg({wechatApp,openid,media:medias})  
+            sendMediaMsg({wechatApp,openid,media:medias})  
         }else{
+            
              // 没有媒体id ,图片上传到微信服务器获取媒体id , 发送给用户  
             const fileList =  locals.filter(item=>item.file_type === "image" ? {file_type:item.file_type,file_path:item.file_path}: null)  
             const medias = await uploadLocalFilesToWx({wechatApp,fileList})  
-            if(medias.length > 0) {
-                 sendMediaMsg({wechatApp,openid,media:medias})
+            
+            if(medias.length > 0) { 
+                sendMediaMsg({wechatApp,openid,media:medias})
                 cacheMediaId({link,wechat_id,medias})
             }
         }
@@ -51,8 +54,11 @@ import { sendMediaMsg,pushTxtCustomerMsgBatch, uploadLocalFilesToWx } from "../w
     }
 
     //返回请求
-    ctx.request.body = {}
+    ctx.body = {code:0, msg:"ok"}
 }
+
+
+
 
 taskNotify.path = "/taskNotify" 
 

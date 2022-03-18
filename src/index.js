@@ -7,16 +7,16 @@ import  commonRouter from "./route"
 (async()=>{
    const app = new Koa()  
    const wechatRouter = new Router({prefix:"/wechat"})
-   const wehcatMap =  await wechats()  
+   const wechatMap =  await wechats()  
 
     //将wechatMap 配置到路由上
    app.use(async (ctx,next)=>{
-      ctx.wehcatMap = wehcatMap 
-       await  next() 
+        ctx.wechatMap = wechatMap 
+        await  next() 
    })
 
    //开启公众号接入
-   const wechatIter = wehcatMap.values() 
+   const wechatIter = wechatMap.values() 
    while(1) {
        const {value :wechatApp ,done} = wechatIter.next()   
        if(done) break 
