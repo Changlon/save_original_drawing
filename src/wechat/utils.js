@@ -100,7 +100,7 @@ export  function parseInsLink(content) {
     const PARSE_URL = /(\w+):\/\/(www\.)?instagram.com(.+)\//
     if(!ISINSLINK.test(content)) return  
     const urlPatterns = PARSE_URL.exec(content)      
-    const link = urlPatterns[0] + "?__a=1"  
+    const link = urlPatterns[0] 
     const pathArr = urlPatterns[3].split("/") 
     pathArr.shift()
     let username , type , shortcode 

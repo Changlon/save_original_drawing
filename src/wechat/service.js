@@ -33,10 +33,8 @@ export default  [
                 const resData = (await userSub(detail)).data 
                 if(resData.code === 0 && resData.msg === "ok") await  acc.send.pushTxtCustomerMsg(acc.fromUser,constant.INITIAL_LINK) 
                 else if(resData.code === 1 && resData.msg === "exist") await  acc.send.pushTxtCustomerMsg(acc.fromUser,constant.WELCOME_RESUB)  
-            })
-          
+            }) 
         }
-
     },
 
     {
@@ -63,6 +61,7 @@ export default  [
         }
     },
 
+        // ins链接业务处理
     {
         type:'text',
         pattern:/.+/,
