@@ -1,13 +1,13 @@
 
 export default {
-   timeout:10000,
+   timeout:25000,
    dev:{
     domain:"localhost",
     port:8090
    },
    pro:{
-    domain:"localhost",
-    port:8090
+    domain:"172.20.10.9", 
+    port: 8090
    }
 }
 

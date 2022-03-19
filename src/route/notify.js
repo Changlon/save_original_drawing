@@ -18,11 +18,16 @@ import { sendMediaMsg,pushTxtCustomerMsgBatch, uploadLocalFilesToWx } from "../w
     const wechatMap = ctx.wechatMap 
     const req = ctx.request 
     const body = req.body 
+    
+    if(process.env.NODE_ENV.startsWith("dev")) {
+        console.log(`请求数据:${JSON.stringify(body)}`)
+    }
+    
 
     // 获取用户 openid , wechatid  , total 链接包含的总资源数量
-    const {openid,wechat_id,link,medias,locals,total} = body   
+    const {openid,wechat_id,shortcode,medias,locals,total} = body   
 
-    if(!openid || !wechat_id || !link || !locals || !total) return  ctx.body = {code:500,msg:"参数不足"}
+    if(!openid || !wechat_id || !shortcode || !locals || !total) return  ctx.body = {code:500,msg:"参数不足"}
     
     const wechatApp = wechatMap.get(wechat_id)  
 
@@ -44,7 +49,7 @@ import { sendMediaMsg,pushTxtCustomerMsgBatch, uploadLocalFilesToWx } from "../w
             
             if(medias.length > 0) { 
                 sendMediaMsg({wechatApp,openid,media:medias})
-                cacheMediaId({link,wechat_id,medias})
+                cacheMediaId({shortcode,wechat_id,medias})
             }
         }
 

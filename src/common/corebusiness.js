@@ -33,4 +33,4 @@ export const downloadSuccess = async openid => request("/downloadSuccess",{openi
  * @param {*} param0  type medias : Array<Object> {type:"image"|"video",media_id:"xxx",thumb_media_id?:"xxx"}
  * @returns 
  */
-export const cacheMediaId = async ({link,wechat_id,medias}) => request("/mediaCache",{link,wechat_id,medias},"post",true) 
+export const cacheMediaId = async ({shortcode,wechat_id,medias}) => request("/mediaCache",{shortcode,wechat_id,medias},"post",true) 
