@@ -59,8 +59,8 @@ export async function  sendMediaMsg({
     media 
 }) {
     
-    if(! wechatApp instanceof wechatPub) return  console.log(`sendMediaMsg failed ! param typeError -> wechatApp : ${wechatApp} is not instance of Class koa-wechat-public`) && undefined
-    if(!openid) return console.log(`sendMediaMsg failed ! param typeError -> openid ${openid}`)  && undefined
+    if(!wechatApp || ! (wechatApp instanceof wechatPub)) return  console.log(`sendMediaMsg failed ! param typeError -> wechatApp : ${wechatApp} is not instance of Class koa-wechat-public`) && undefined
+    if(!openid || typeof openid!=="string") return console.log(`sendMediaMsg failed ! param typeError -> openid ${openid}`)  && undefined
     if(!media) return console.log(`sendMediaMsg failed ! param typeError -> media ${media}`)  && undefined
     
     if(media instanceof Array) { 
@@ -72,8 +72,8 @@ export async function  sendMediaMsg({
         return successNum  
     }
     
-    const {media_type,media_id,thumb_media_id} = media 
-
+    let  {type,media_type,media_id,thumb_media_id} = media  
+    media_type = media_type  ? media_type: type
     let res 
     
     switch(media_type) {

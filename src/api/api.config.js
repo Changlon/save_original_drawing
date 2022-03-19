@@ -7,7 +7,7 @@ export default {
    },
    pro:{
     domain:"localhost",
-    port:8090
+    port:8080
    }
 }
 
