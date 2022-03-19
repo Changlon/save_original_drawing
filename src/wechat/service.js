@@ -73,11 +73,18 @@ export default  [
                 await acc.send.sendTxtMsg(constant.SEND_MEDIA_WATING)  
                 setTimeout(async ()=>{
                     const result = parseInsLink(content) 
-                    result.wechat_id = acc.toUser , result.openid = acc.fromUser , result.scene = "wechat"
-                    const res =  (await addDownloadTask(result)).data
-                    if(res.code===500){
+                    result.wechat_id = acc.toUser , result.openid = acc.fromUser , result.scene = "wechat" 
+                
+                    try { 
+                       let res = (await addDownloadTask(result)).data   
+                       if(res.data !== 200) {
                         acc.send.pushTxtCustomerMsg(acc.fromUser,res.msg)
+                       }
+
+                    }catch(e) {
+                        acc.send.pushTxtCustomerMsg(acc.fromUser, constant.SERVER_ERRROR_INFO)
                     }
+                
                 })
              }
         }
