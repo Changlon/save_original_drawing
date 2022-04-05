@@ -32,6 +32,7 @@ import { sendMediaMsg,pushTxtCustomerMsgBatch, uploadLocalFilesToWx } from "../w
     const wechatApp = wechatMap.get(wechat_id)  
 
     if(typeof total === "number" && total > 0 ) {
+
         await wechatApp.pushTxtCustomerMsg(openid,`检测到${total}个资源`)
 
         // 将视频链接发送
@@ -41,25 +42,30 @@ import { sendMediaMsg,pushTxtCustomerMsgBatch, uploadLocalFilesToWx } from "../w
         // 有媒体id 发送媒体id , 有视频资源 ？ 有发送链接或者小程序  
         if(medias) {
             sendMediaMsg({wechatApp,openid,media:medias})  
+            ctx.body = {code:200, msg:"ok"}
         }else{
             
-             // 没有媒体id ,图片上传到微信服务器获取媒体id , 发送给用户  
-            const fileList =  locals.filter(item=>item.file_type === "image" ? {file_type:item.file_type,file_path:item.file_path}: null)  
-            const medias = await uploadLocalFilesToWx({wechatApp,fileList})  
-            
-            if(medias.length > 0) { 
-                sendMediaMsg({wechatApp,openid,media:medias})
-                cacheMediaId({shortcode,wechat_id,medias})
+            try {
+                  // 没有媒体id ,图片上传到微信服务器获取媒体id , 发送给用户  
+                const fileList =  locals.filter(item=>item.file_type === "image"  && item.ins_type === "item" ? {file_type:item.file_type,file_path:item.file_path}: null)  
+                const medias = await uploadLocalFilesToWx({wechatApp,fileList})  
+                
+                if(medias.length > 0) { 
+                    sendMediaMsg({wechatApp,openid,media:medias})
+                    ctx.body = {code:200, msg:"ok",data:{shortcode,wechat_id,medias}}
+                }
+
+            }catch(e) {
+                console.log(e.message)
             }
         }
-
        //成功发送
       downloadSuccess(openid) 
 
     }
 
-    //返回请求
-    ctx.body = {code:0, msg:"ok"}
+    
+   
 }
 
 

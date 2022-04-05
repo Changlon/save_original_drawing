@@ -29,7 +29,6 @@ import  commonRouter from "./route"
    app.listen(3000,()=>{
        console.log("wechat servers listen on port 3000!")
    }) 
-
 })()
 
 
