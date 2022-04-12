@@ -2,8 +2,9 @@
 export default {
    timeout:25000,
    dev:{
-    domain:"localhost",
-    port:8090
+    domain:"http://51hl327062.wicp.vip",
+   //  domain:"http://localhost",
+    port:80
    },
    pro:{
     domain:"172.20.10.9", 

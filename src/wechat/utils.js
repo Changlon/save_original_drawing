@@ -5,6 +5,62 @@
  */
 
 import wechatPub from "koa-wechat-public" 
+import axios  from "axios" 
+import fs from "fs"
+import path from "path" 
+
+
+// downloadFileToLocal([
+//     {
+//       file_type: 'image',
+//       file_path: 'https://ins-1310702628.cos.ap-beijing.myqcloud.com/common/nasa/Cba84meJxb3/item1.jpeg?q-sign-algorithm=sha1&q-ak=AKIDITbhyAILIAwcCh6Pcmuy00v5saDlEdwB&q-sign-time=1649745283%3B1649831683&q-key-time=1649745283%3B1649831683&q-header-list=host&q-url-param-list=&q-signature=a5ffcc33b7c2a9bd0c4b8dab3b71a03ee94e1dc5'
+//     }
+//   ]).then(res=>{
+//       console.log(res)
+//       for(let {file_path} of res) {
+//         delLocalFile(file_path) 
+//       }
+
+//   })
+
+
+// delLocalFile("D:\\CodeFiles\\workplace\\ins\\save_original_drawing\\src\\wechat\\1649746872683.jpg")
+
+/**
+ * 删除本地文件
+ * @param {*} filepath 
+ */
+export function delLocalFile(fileList) { 
+    for(let {file_path} of fileList) {
+        if(fs.existsSync(file_path)) {
+            fs.unlink(file_path,()=>{})
+         }
+    }
+   
+}
+
+
+/**
+ * 下载url 到本地
+ * @param {*} fileList 
+ */
+export async function downloadFileToLocal(fileList) {  
+    const res = []
+    for(let {file_path,file_type} of fileList) { 
+        if(!file_path || !file_type) continue 
+        const {data} = await axios({
+                url:file_path,
+                responseType:"arraybuffer"
+            })
+        
+        const filepath = path.join(__dirname,`./${new Date().getTime()}${ 
+            file_type === 'image' ? 
+            '.jpg': '.mp4'}`)
+        fs.writeFileSync(filepath,data,"binary")   
+        res.push({file_type,file_path:filepath}) 
+    }
+    return res
+}
 
 
 

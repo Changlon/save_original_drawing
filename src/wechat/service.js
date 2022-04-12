@@ -58,6 +58,7 @@ export default  [
         pattern:/客服/g,
         handler: async acc =>{
              acc.send.sendTxtMsg("vx: yuancuntu")  
+             acc.send.pushTxtCustomerMsg(acc.fromUser,"xxx")
         }
     },
 
@@ -77,12 +78,12 @@ export default  [
                 
                     try { 
                        let res = (await addDownloadTask(result)).data   
-                       if(res.data !== 200) {
+                       if(res.code !== 0) {
                         acc.send.pushTxtCustomerMsg(acc.fromUser,res.msg)
                        }
 
                     }catch(e) {
-                        acc.send.pushTxtCustomerMsg(acc.fromUser, constant.SERVER_ERRROR_INFO)
+                        // acc.send.pushTxtCustomerMsg(acc.fromUser, constant.SERVER_ERRROR_INFO)
                     }
                 
                 })

@@ -47,7 +47,7 @@ Upgraded version of quick-ins-store
 
 
 ```
-  timeout:25000, //超时时间
+timeout:25000, //超时时间
    dev:{ //生产环境ip
     domain:"localhost",
     port:8090

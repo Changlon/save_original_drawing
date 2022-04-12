@@ -4,7 +4,7 @@ export default {
     INITIAL_LINK:`https://www.instagram.com/p/Ca1KeF4KEJ1/?utm_medium=copy_link`, 
     WELCOME_RESUB:`欢迎回来 \ue327`,
     SERVER_ERRROR_INFO:`服务器后台出现错误，请联系管理员处理!`,
-    SEND_MEDIA_WATING:"解析链接中... 请等待几秒!",
+    SEND_MEDIA_WATING:"正在解析，请等待几秒!",
     SEND_OTHER_LINK_TIP:"其他链接暂时无法识别请联系客服处理！",
     SEND_CONTENT_UNIDENTIFIABLE:"该内容无法识别,仅支持下载链接!",
     INSLINK_POST_REG : new RegExp('http://www.instagram.com/p/.*/|https://www.instagram.com/p/.*/|http://www.instagram.com/reel/.*/|https://www.instagram.com/reel/.*/|http://www.instagram.com/.+/p/.*/|https://www.instagram.com/.+/p/.*/|http://www.instagram.com/.+/reel/.*/|https://www.instagram.com/.+/reel/.*/') ,

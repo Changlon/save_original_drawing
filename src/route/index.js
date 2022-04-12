@@ -9,13 +9,14 @@ import Router from "koa-router"
 import BodyParser from "koa-bodyparser" 
 
 import {
-    taskNotify
+    taskNotify,
+    taskFailed
 } from "./notify"
 
 const router = new Router({prefix:"/api/mession/common"})  
 router.use(BodyParser()) 
 router.post(taskNotify.path,taskNotify)  
-
+router.post(taskFailed.path,taskFailed)  
 
 export default router 
 
