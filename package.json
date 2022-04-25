@@ -26,11 +26,13 @@
   },
   "dependencies": {
     "axios": "0.26.0",
+    "crypto-js": "4.1.1",
     "koa": "2.13.4",
     "koa-bodyparser": "4.3.0",
     "koa-router": "10.1.1",
     "koa-wechat-public": "0.1.10",
     "koa-xml-body": "2.2.0",
-    "qs": "6.10.3"
+    "qs": "6.10.3",
+    "request-any": "2.0.3"
   }
 }

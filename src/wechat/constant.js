@@ -1,5 +1,5 @@
 export default {
-
+    SUBSCRIPTION_BEIZHU:"如需关闭通知，点击底部菜单 【高级功能】- 博主订阅，取消订阅即可",
     SUBSCRIBE_INFO : `<a href='http://www.baidu.com'>原存图</a> \ue446 \n一款 快速 高清 便捷的 Instagram 图片 & 视频保存工具!\n发送链接即可保存！\n \ue233 App下载通道 : http://www.metadonwload.com`, 
     INITIAL_LINK:`https://www.instagram.com/p/Ca1KeF4KEJ1/?utm_medium=copy_link`, 
     WELCOME_RESUB:`欢迎回来 \ue327`,
@@ -10,5 +10,4 @@ export default {
     INSLINK_POST_REG : new RegExp('http://www.instagram.com/p/.*/|https://www.instagram.com/p/.*/|http://www.instagram.com/reel/.*/|https://www.instagram.com/reel/.*/|http://www.instagram.com/.+/p/.*/|https://www.instagram.com/.+/p/.*/|http://www.instagram.com/.+/reel/.*/|https://www.instagram.com/.+/reel/.*/') ,
 	INSLINK_IGTV_REG : new RegExp('http://www.instagram.com/tv/.*/|https://www.instagram.com/tv/.*/|http://www.instagram.com/.+/tv/.*/|https://www.instagram.com/.+/tv/.*/'),
     ISINSLINK: new RegExp('http(s)?://(www.)?instagram.com/')
-
 }

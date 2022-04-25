@@ -15,7 +15,9 @@
  * @param {*} param0 
  * @returns 
  */
-export const addDownloadTask = async data => request("/downloadMessionInfo",data,"post")
+// export const addDownloadTask = async data =>  request("/downloadMessionInfo",data,"post")
+export const addDownloadTask = async data =>  request({route:"/downloadMessionInfo",data,type:"post"})
+
 
 
 /**
@@ -23,7 +25,9 @@ export const addDownloadTask = async data => request("/downloadMessionInfo",data
  * @param {*} openid 
  * @returns 
  */
-export const downloadSuccess = async openid => request("/downloadSuccess",{openid},"post")
+// export const downloadSuccess = async openid => request("/downloadSuccess",{openid},"post")
+export const downloadSuccess = async openid => request({route:"/downloadSuccess",data:{openid},type:"post"}) 
+
 
 
 
@@ -33,4 +37,9 @@ export const downloadSuccess = async openid => request("/downloadSuccess",{openi
  * @param {*} param0  type medias : Array<Object> {type:"image"|"video",media_id:"xxx",thumb_media_id?:"xxx"}
  * @returns 
  */
-export const cacheMediaId = async ({shortcode,wechat_id,medias}) => request("/mediaCache",{shortcode,wechat_id,medias},"post",true) 
+// export const cacheMediaId = async ({shortcode,wechat_id,medias}) => request("/mediaCache",{shortcode,wechat_id,medias},"post",true) 
+export const cacheMediaId = async ({shortcode,wechat_id,medias}) => request({route:"/mediaCache",data:{shortcode,wechat_id,medias},type:"post",json:true})  
+
+
+
+

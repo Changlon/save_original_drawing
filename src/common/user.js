@@ -18,7 +18,9 @@
   * @param {*} detail 
   * @returns 
   */
- export const userSub = async detail => request("/user",detail,"post",true)
+//  export const userSub = async detail => request("/user",detail,"post",true)
+ export const userSub = async detail => request({route:"/user",data:detail,type:"post",json:true}) 
+
 
  
 
@@ -27,7 +29,8 @@
   * @param {*} openid 
   * @returns 
   */
-export const userUnSub = async openid => request("/user",{openid},"delete",true)
+// export const userUnSub = async openid => request("/user",{openid},"delete",true)
+export const userUnSub = async openid => request({route:"/user",data:{openid},type:"delete",json:true})
 
 
 

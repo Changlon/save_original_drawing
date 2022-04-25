@@ -7,9 +7,9 @@ import { injectService, registe } from "./registe"
 
 
 export default (async () =>{ 
-     const {data} = await getWechatServers() 
-     if( data.code !== 0 ||  data.count <= 0 )  return 
-     const wechatServerConfList = data.data    
+     const {data,code,count} = await getWechatServers() 
+     if( code !== 0 ||  count <= 0 )  return 
+     const wechatServerConfList = data   
      const wechatMap = new Map()  
      for(let wechatServerConf of wechatServerConfList) {
          const wechatApp = registe(wechatServerConf) 

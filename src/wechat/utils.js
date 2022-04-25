@@ -8,6 +8,7 @@ import wechatPub from "koa-wechat-public"
 import axios  from "axios" 
 import fs from "fs"
 import path from "path" 
+import cryptoJs from "crypto-js"
 
 
 // downloadFileToLocal([
@@ -25,6 +26,50 @@ import path from "path"
 
 
 // delLocalFile("D:\\CodeFiles\\workplace\\ins\\save_original_drawing\\src\\wechat\\1649746872683.jpg")
+
+
+
+/**
+ * 日期转指定的字符格式
+ * @param {*} date 
+ * @param {*} formate 
+ * @returns  
+ *  %Y->表示满年占位符 2022  %y表示小年占位符 22 
+ *  %M ->表示单数月 1    %MM -> 表示双数月01 
+ *  %D ->单数日 %DD-> 双数日 
+ */
+
+ export function date2StrFormat_$01(date,format) {     
+    if(!date instanceof Date) return 
+    const year =  date.getFullYear() 
+    const month = ( date.getMonth() + 1 ) < 10 ?  "0" + ( date.getMonth() + 1 ) :( date.getMonth() + 1 )
+    const day   = date.getDate() < 10 ? "0" + date.getDate() : date.getDate()  
+    format = format ? format : "%Y-%M-%D"   
+    format = format.replace("%MM",month) 
+    format = format.replace("%DD",day) 
+    format =  format.replace("%Y",year) 
+    format = format.replace("%M",date.getMonth()+1)
+    format = format.replace("%D",date.getDate()) 
+    return format
+}
+
+
+/**
+ * 获取sign
+ * @returns 
+ */
+
+ export  function getSign(){
+    let timestamp =  new Date().getTime()
+    timestamp = (timestamp + "").substring(0,9) 
+    let time_base_64 =  cryptoJs.enc.Base64.stringify(
+        cryptoJs.enc.Utf8.parse(timestamp)
+    ) + "\n"
+    let hmacMd5 =  cryptoJs.HmacMD5( time_base_64 ,cryptoJs.enc.Base64.parse("YWRmMzViOTFjOTU2ZTYzZjdkZTc5YzU1MTNmNTgyM2U="))   
+    return hmacMd5.toString()
+} 
+
+
 
 /**
  * 删除本地文件
@@ -162,7 +207,7 @@ export  function parseInsLink(content) {
     let username , type , shortcode 
     
     if(pathArr.length===1){ 
-        type = "profile", username = pathArr[0]  
+        type = "index", username = pathArr[0]  
     }else if (pathArr.length ===2){ 
         type = pathArr[0] , shortcode = pathArr[1]
     }else if(pathArr.length ===3) { 

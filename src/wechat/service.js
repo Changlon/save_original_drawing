@@ -30,16 +30,16 @@ export default  [
                 //TODO : 添加默认头像url 
                 detail.headimgurl = detail.headimgurl || ""  
                 detail.wechatid = acc.toUser 
-                const resData = (await userSub(detail)).data 
-                if(resData.code === 0 && resData.msg === "ok") await  acc.send.pushTxtCustomerMsg(acc.fromUser,constant.INITIAL_LINK) 
-                else if(resData.code === 1 && resData.msg === "exist") await  acc.send.pushTxtCustomerMsg(acc.fromUser,constant.WELCOME_RESUB)  
+                const resData = (await userSub(detail))
+                if(resData.code === 0 ) await  acc.send.pushTxtCustomerMsg(acc.fromUser,constant.INITIAL_LINK) 
+                else if(resData.code === 1) await  acc.send.pushTxtCustomerMsg(acc.fromUser,constant.WELCOME_RESUB)  
             }) 
         }
     },
 
     {
         type:"unsubscribe",
-        handler:async acc =>{ await userUnSub(acc.fromUser) }
+        handler:async acc =>{  userUnSub(acc.fromUser) }
     }, 
 
     {
@@ -77,7 +77,9 @@ export default  [
                     result.wechat_id = acc.toUser , result.openid = acc.fromUser , result.scene = "wechat" 
                 
                     try { 
-                       let res = (await addDownloadTask(result)).data   
+                       let res = (await addDownloadTask(result))   
+                       console.log(res)
+                       
                        if(res.code !== 0) {
                         acc.send.pushTxtCustomerMsg(acc.fromUser,res.msg)
                        }

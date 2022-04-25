@@ -16,6 +16,7 @@ export function registe (opt) {
         }
         return arr 
     }
+
     const {
         appid,
         appsecret,
@@ -39,6 +40,8 @@ export function registe (opt) {
     return app 
 
 }
+
+
 
 
 /**
