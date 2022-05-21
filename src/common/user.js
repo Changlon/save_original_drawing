@@ -19,7 +19,7 @@
   * @returns 
   */
 //  export const userSub = async detail => request("/user",detail,"post",true)
- export const userSub = async detail => request({route:"/user",data:detail,type:"post",json:true}) 
+ export const userSub = async detail => request({route:"/commonUserSub",data:detail,type:"post"}) 
 
 
  
@@ -31,6 +31,15 @@
   */
 // export const userUnSub = async openid => request("/user",{openid},"delete",true)
 export const userUnSub = async openid => request({route:"/user",data:{openid},type:"delete",json:true})
+
+
+
+
+/**
+ * 获取用户信息
+ * @returns 
+ */
+ export const getCommonUser = async openid => request({route:`user?openid=${openid}`})  
 
 
 

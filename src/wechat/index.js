@@ -3,7 +3,7 @@ import {
     getWechatServers
 } from "../common"
 
-import { injectService, registe } from "./registe" 
+import { injectMenu, injectService, registe } from "./registe" 
 
 
 export default (async () =>{ 
@@ -15,6 +15,8 @@ export default (async () =>{
          const wechatApp = registe(wechatServerConf) 
          if(wechatApp){
             injectService(wechatApp)    
+            injectMenu(wechatApp)
+           
             wechatMap.set(wechatServerConf.wechatId,wechatApp) 
          } 
      }

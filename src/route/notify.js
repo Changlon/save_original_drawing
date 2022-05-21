@@ -134,12 +134,7 @@ subscription.path = "/subscription"
                     }
                 }
 
-                //TODO : 去掉 
-                console.log("====================================") 
-                console.log(fileList)
-                console.log("====================================") 
                 fileList = await downloadFileToLocal(fileList)  
-
                 const medias = await uploadLocalFilesToWx({wechatApp,fileList})   
                 
                 if(medias.length > 0) { 
@@ -161,12 +156,18 @@ subscription.path = "/subscription"
             }
         }
 
+
+        //发送小程序卡片
+        wechatApp.pushMiniProgramCardMsg(openid,null,{body})
+
+
         //成功发送
         downloadSuccess(openid) 
 
     }    
    
 }
+
 
 
 taskNotify.path = "/taskNotify" 

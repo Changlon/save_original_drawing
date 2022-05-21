@@ -1,6 +1,7 @@
 
 import wechatPub from "koa-wechat-public" 
 import service from "./service" 
+import {menu,menuEvent} from "./menu"
 
 /**
  * 注册一个或者多个公众号服务
@@ -17,11 +18,13 @@ export function registe (opt) {
         return arr 
     }
 
+    
     const {
         appid,
         appsecret,
         token,
-        encoding_aes_key 
+        encoding_aes_key ,
+        miniProgramConfig
     }  = opt
 
     
@@ -30,9 +33,10 @@ export function registe (opt) {
 
     const app =  new wechatPub({
         appId:appid,
-        appSecret:appsecret,
+        appSecret:appsecret, 
         token:token,
-        encodingAESKey:encoding_aes_key
+        encodingAESKey:encoding_aes_key,
+        miniConfig:miniProgramConfig ? JSON.parse(miniProgramConfig) : {}
     })
 
     app.opt = opt 
@@ -75,10 +79,31 @@ export function injectService(wechatApp) {
                 handler && wechatApp.menu(handler)  
                 break
             case "oauth": 
-                handler && wechatApp.oauth(handler)  
+                handler && wechatApp.oauth(async function(){return Promise.resolve(handler.call(wechatApp,...arguments,wechatApp))})  
                 break
         }
     }
 }
+
+
+/**
+ * 注入菜单服务
+ * @param {*} wechatApp 
+ * @returns 
+ */
+export  function injectMenu(wechatApp) {
+    if(!wechatApp || typeof wechatApp !== "object" || !( wechatApp instanceof wechatPub ) ) return  
+    if(!wechatApp.opt.wechatId) return console.debug("wechat - injectService : wechatApp need opt wechatId")  
+    let menuBtn = JSON.parse( JSON.stringify(menu).replaceAll("{{APPID}}",wechatApp.opt.appid)) 
+    wechatApp.createMenu({"button":menuBtn})
+    wechatApp.menu(async acc=>{ 
+        const {eventKey} = acc    
+        if(menuEvent[eventKey]) await menuEvent[eventKey](acc)   
+    })
+}
+
+
+
+
 
 

@@ -8,5 +8,20 @@ module.exports = {
     path: path.resolve(__dirname, 'target'),
     filename: '[name].js',
   },
-  target:"node"
+  target:"node",
+  module:{
+    rules:[
+      {
+        test: /\.(png|jpg|jpeg|gif|svg)$/,
+        use:[{
+          loader: "file-loader",
+          options:{
+            esModule:true,
+            outputPath:"assets",
+            name:"[name].[ext]"
+          }
+        }]
+      }
+    ]
+  }
 }

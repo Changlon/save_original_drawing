@@ -28,6 +28,37 @@ import cryptoJs from "crypto-js"
 // delLocalFile("D:\\CodeFiles\\workplace\\ins\\save_original_drawing\\src\\wechat\\1649746872683.jpg")
 
 
+/**
+ * 是否是svip
+ * @param {*} commonUser 
+ * @returns 
+ */
+export function isSvip(commonUser) {
+    let isExpired = vipIsExpired(commonUser)
+    if(isExpired) return false   
+    let expireTime = commonUser.expireTime
+    let yearVipExpireTime = 31104000000 //一年时间
+    return !isExpired && (expireTime >= yearVipExpireTime ) 
+}
+
+
+/**
+ * 检查会员是否到期
+ * 过期 true 
+ * 没过期 false 
+ * @param {*} commonUser 
+ */
+export function vipIsExpired(commonUser) {  
+    if(!commonUser) return true 
+    if(commonUser.isVip === 0 ) return true 
+    if( !commonUser.vipStart ||  !commonUser.expireTime) return true 
+    let targetTime = new Date(commonUser.vipStart).getTime() + commonUser.expireTime 
+    let currentTime = new Date().getTime() 
+    return currentTime > targetTime 
+}
+
+
+
 
 /**
  * 日期转指定的字符格式
@@ -64,7 +95,7 @@ import cryptoJs from "crypto-js"
     timestamp = (timestamp + "").substring(0,9) 
     let time_base_64 =  cryptoJs.enc.Base64.stringify(
         cryptoJs.enc.Utf8.parse(timestamp)
-    ) + "\n"
+    ) 
     let hmacMd5 =  cryptoJs.HmacMD5( time_base_64 ,cryptoJs.enc.Base64.parse("YWRmMzViOTFjOTU2ZTYzZjdkZTc5YzU1MTNmNTgyM2U="))   
     return hmacMd5.toString()
 } 
@@ -196,7 +227,9 @@ export async function  sendMediaMsg({
  * 解析ins链接
  * @param {*} link 
  */
-export  function parseInsLink(content) {  
+export  
+
+function parseInsLink(content) {  
     const ISINSLINK = new RegExp("http(s)?://(www.)?instagram.com/","g")
     const PARSE_URL = /(\w+):\/\/(www\.)?instagram.com(.+)\//
     if(!ISINSLINK.test(content)) return  
@@ -204,24 +237,31 @@ export  function parseInsLink(content) {
     const link = urlPatterns[0] 
     const pathArr = urlPatterns[3].split("/") 
     pathArr.shift()
-    let username , type , shortcode 
-    
+    let username , type , shortcode , shortcodeLength
     if(pathArr.length===1){ 
         type = "index", username = pathArr[0]  
     }else if (pathArr.length ===2){ 
         type = pathArr[0] , shortcode = pathArr[1]
     }else if(pathArr.length ===3) { 
-        username = pathArr[0] ,type = pathArr[1] ,shortcode = pathArr[2]
+        if(pathArr[0]!=="stories") {
+            username = pathArr[0] ,type = pathArr[1] ,shortcode = pathArr[2]
+        }else{
+            username = pathArr[1],type = pathArr[0],shortcode = pathArr[2]
+        }
+
+        shortcodeLength = shortcode ? shortcode.length : 0 
     }
 
     return {
         link,
         username,
         type,
-        shortcode 
+        shortcode ,
+        shortcodeLength
     }
     
 }
+
 
 
 
