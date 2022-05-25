@@ -230,14 +230,35 @@ export async function  sendMediaMsg({
 export  
 
 function parseInsLink(content) {  
+     
     const ISINSLINK = new RegExp("http(s)?://(www.)?instagram.com/","g")
-    const PARSE_URL = /(\w+):\/\/(www\.)?instagram.com(.+)\//
+    const PARSE_URL = /(\w+):\/\/(www\.)?instagram.com(.+)\// 
+    const PARSE_PROFILE_URL = /(\w+):\/\/(www\.)?instagram.com(.+)\?/
     if(!ISINSLINK.test(content)) return  
-    const urlPatterns = PARSE_URL.exec(content)      
-    const link = urlPatterns[0] 
+    let urlPatterns = PARSE_URL.exec(content)  
+    
+    let link, username , type , shortcode , shortcodeLength
+    
+    if(!urlPatterns) {
+        urlPatterns = PARSE_PROFILE_URL.exec(content) 
+        link = urlPatterns[0]
+        link = link.substring(0,link.length-1) + "/"
+        username = urlPatterns[3].substring(1) 
+        let linkType = type =  "index" 
+        return {
+            link,
+        username,
+        type,
+        linkType,
+        shortcode ,
+        shortcodeLength
+        }
+    }
+
+    link = urlPatterns[0] 
     const pathArr = urlPatterns[3].split("/") 
     pathArr.shift()
-    let username , type , shortcode , shortcodeLength
+  
     if(pathArr.length===1){ 
         type = "index", username = pathArr[0]  
     }else if (pathArr.length ===2){ 
@@ -261,7 +282,5 @@ function parseInsLink(content) {
     }
     
 }
-
-
 
 

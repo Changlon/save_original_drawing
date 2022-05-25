@@ -130,7 +130,7 @@ subscription.path = "/subscription"
                 let fileList = [] 
                 for(let item of locals) {
                     if(item.media_type === "image"  && item.media_ins_type === "item" ) {
-                       fileList.push( {file_type:item.media_type,file_path:item.media_url} )
+                       fileList.push( {file_type:item.media_type,file_path:decodeURIComponent(item.media_url)} )
                     }
                 }
 
@@ -150,25 +150,23 @@ subscription.path = "/subscription"
 
                 //删除本地临时文件 
                 delLocalFile(fileList)
+
                
             }catch(e) {
-                console.log(e.message)
+               return console.log(e.message) && wechatApp.pushTxtCustomerMsg(openid,e.message)
             }
         }
+        
+           //成功发送 减少次数放到服务器后台计算
+        //    downloadSuccess(openid) 
 
-
-        //发送小程序卡片
-        wechatApp.pushMiniProgramCardMsg(openid,null,{body})
-
-
-        //成功发送
-        downloadSuccess(openid) 
-
+           //发送小程序卡片
+           let res = await wechatApp.pushMiniProgramCardMsg(openid,null,{openid,locals})
+           console.log(`小程序弹送结果`,res)
+        
     }    
    
 }
-
-
 
 taskNotify.path = "/taskNotify" 
 

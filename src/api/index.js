@@ -18,7 +18,8 @@ export default generateReqAny({
         console.debug(data)
         console.log("===============================================================")
     },
-    timeout:conf.timeout
+    timeout:conf.timeout,
+    debug:true
 })
 
 

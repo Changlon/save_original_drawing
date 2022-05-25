@@ -50,9 +50,9 @@ export const menuEvent = {
         
         /** 未开通vip */
         if(data.isVip === 0 ) { 
-            return await acc.send.sendTxtMsg(constant.NOT_VIP_NOTIFICATION)
+            return await acc.send.sendTxtMsg(constant.NOT_VIP_NOTIFICATION.replace("{{APPID}}",acc.context.config.appId))
         }else if(vipIsExpired(data)) { 
-            return await acc.send.sendTxtMsg(constant.VIP_EXPIRED)
+            return await acc.send.sendTxtMsg(constant.VIP_EXPIRED.replace("{{APPID}}",acc.context.config.appId))
         }
 
         await acc.send.sendTxtMsg(`<a data-miniprogram-appid="wx04cb6f91aee1ec15" data-miniprogram-path="pages/search/search" href="https://www.inscarry.com" >\uE231 点击使用小程序存图</a>️ `)

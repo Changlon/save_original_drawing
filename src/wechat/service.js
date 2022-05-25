@@ -17,9 +17,12 @@ import {
     userSub,
     userUnSub ,
     addDownloadTask,
+    updateCommonUser,
+    requestCode,
 } from "../common"
 
 import rq from "../api"
+import { stat } from "fs"
 
 export default  [
 
@@ -59,9 +62,19 @@ export default  [
         /** app 对应的公众号实例, this指向app */
         handler:async (data, ctx , app) =>{ 
              let {access_token,openid,state} = data 
-            /** 更行用户信息 */ 
+            
             let res = await rq({baseUrl:`https://api.weixin.qq.com/sns/userinfo?access_token=${access_token}&openid=${openid}&lang=zh_CN`}) 
             let {nickname,headimgurl} = res 
+            
+            if(state === "order") { 
+                /** 更新用户信息 */ 
+                try {
+                    updateCommonUser(openid,nickname,headimgurl,null)
+                } catch (error) {
+                    console.log(error)
+                }
+              
+            }
             /** 定向到支付业务页面 */  
             ctx.response.redirect(`https://api.inscarry.com/#/${state}?openid=${openid}`)  
         }
@@ -80,6 +93,7 @@ export default  [
             acc.send.pushImageCustomerMsg(acc.fromUser,mediaList[0].media_id)
         }
     },
+
     {
         type:"text",
         pattern:/小程序/g,
@@ -89,8 +103,28 @@ export default  [
             // console.log(res)   
             //发送小程序卡片
             acc.send.pushMiniProgramCardMsg(acc.fromUser,null,{})
+            
         }
     },
+    
+    
+    {
+        type:'text',
+        pattern:/激活码/g,
+        handler: async acc =>{ 
+            let res =  await requestCode(acc.fromUser) 
+           if(res.code === 500) {
+             acc.send.sendTxtMsg(`${res.data} \n ${constant.NOT_VIP_NOTIFICATION.replace("{{APPID}}",acc.context.config.appId)}`) 
+           }else {
+             let {codeStr } = res.data
+             acc.send.sendTxtMsg(`您的激活码为:\n ${codeStr} \n <a href="https://docs.inscarry.com/extension/download.html">\uE231 查看激活码使用教程 </a>`) 
+           
+           }
+
+            
+        }
+    },
+
 
     {
         type:"image",

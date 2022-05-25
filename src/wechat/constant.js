@@ -1,6 +1,6 @@
 export default {
-    VIP_EXPIRED:`会员已到期: \n \uE231 <a href="https://api.inscarry.com">点击续费会员，限时优惠进行中！</a> `,
-    NOT_VIP_NOTIFICATION:`开通SVIP : \n 1、解锁小程序使用特权 \n 2、解锁批量下载服务 \n \uE231 <a href="https://api.inscarry.com">点击开通会员，限时优惠进行中！</a> `,
+    VIP_EXPIRED:`会员已到期: \n \uE231 <a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid={{APPID}}&redirect_uri=http://y4157921z1.wicp.vip/wechatProject/wechat_carry&response_type=code&scope=snsapi_userinfo&state=order#wechat_redirect">点击续费会员，限时优惠进行中！</a> `,
+    NOT_VIP_NOTIFICATION:`开通SVIP :\n1、解锁小程序使用特权\n2、解锁批量下载服务\n 3、解锁浏览器插件 \n \uE231 <a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid={{APPID}}&redirect_uri=http://y4157921z1.wicp.vip/wechatProject/wechat_carry&response_type=code&scope=snsapi_userinfo&state=order#wechat_redirect">点击开通会员，限时优惠进行中！</a> `,
     SUBSCRIPTION_BEIZHU:"如需关闭通知，点击底部菜单 【高级功能】- 博主订阅，取消订阅即可",
     SUBSCRIBE_INFO : `欢迎关注 <a href='https://www.inscarry.com'>【inscarry】</a>  \n复制下方链接发送给我体验ins存图服务！`, 
     INITIAL_LINK:`https://www.instagram.com/p/Ca1KeF4KEJ1/?utm_medium=copy_link`, 

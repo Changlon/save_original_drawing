@@ -43,5 +43,22 @@ export const userUnSub = async openid => request({route:"/user",data:{openid},ty
 
 
 
+ /**
+  * 更新用户数据
+  * @param {*} openid 
+  * @param {*} nickname 
+  * @param {*} avatarUrl 
+  * @param {*} phone 
+  * @returns 
+  */
+ export const updateCommonUser = async (openid,nickname,avatarUrl,phone)=> request({route:"/userUpdate",data:{openid,nickname,avatarUrl,phone},type:"put"})
 
+
+
+ /**
+  * 获取激活码
+  * @param {*} openid 
+  * @returns 
+  */
+ export const requestCode = async openid => request({route:"/activationCode/request",data:{openid},type:"post"}) 
  
