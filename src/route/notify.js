@@ -14,6 +14,7 @@ import { sendMediaMsg,pushTxtCustomerMsgBatch,
     } from "../wechat/utils"
 
 import constant from "../wechat/constant" 
+import cryptoJs from "crypto-js"
 
 
 
@@ -57,7 +58,7 @@ export async  function subscription(ctx) {
         console.log(`接受任务返回数据:${JSON.stringify(body)}`)
     }
     
-    ctx.body = {}
+    ctx.body = {code:0,msg:"ok"}
     //TODO : 下发模板消息
     const {insUsername,mediaKey,list} = body 
     for(let {openId,wechatId} of list) {
@@ -75,6 +76,8 @@ export async  function subscription(ctx) {
 }
 
 subscription.path = "/subscription" 
+
+
 
 /**
  * 接受任务成功返回通知
@@ -97,14 +100,15 @@ subscription.path = "/subscription"
         locals ===undefined || total ===undefined ) return  ctx.body = {code:500,msg:"参数不足"}
     const wechatApp = wechatMap.get(wechat_id)  
     if(wechatApp === undefined || !wechatApp) return ctx.body = {code:500,msg:`未查询到对应的公众号实例 wechat_id not found !: ${wechat_id}`} 
-
+    
     if(typeof total === "number" && total > 0 ) {
+
         await wechatApp.pushTxtCustomerMsg(openid,`检测到${total}个资源`) 
 
         //处理caption
         for(let item of locals) {
             if(item.media_ins_type === "caption") { 
-                const res = await axios.get(item.media_url) 
+                const res = await axios.get(decodeURIComponent(item.media_url)) 
                 const caption = res.data ? res.data : "" 
                 wechatApp.pushTxtCustomerMsg(openid,caption)
                 break
@@ -114,7 +118,7 @@ subscription.path = "/subscription"
         // 处理视频资源
         const msgList =[] 
         for(let item of locals) {
-            if(item.media_type === "video" && item.media_ins_type === "item" ) msgList.push(`检测到视频资源，打开下面链接即可保存!\n\n${item.media_url}\n\n 链接有效期一天！`)
+            if(item.media_type === "video" && item.media_ins_type === "item" ) msgList.push(`检测到视频资源，打开下面链接即可保存!\n\n${decodeURIComponent( item.media_url)}\n\n 链接有效期一天！`)
         }
         await pushTxtCustomerMsgBatch({wechatApp,openid,msgList})   
 
@@ -144,24 +148,26 @@ subscription.path = "/subscription"
                 ctx.body = {code:200,isMediaCache:true, data:{shortcode,wechat_id,medias},msg:"ok"} 
                 
                  //TODO : 注释
+                 console.log("获取媒体id列表")
                  console.log(medias)
-                 console.log("====================================") 
+
+                 console.log("删除本地临时缓存") 
                  console.log(fileList)
 
                 //删除本地临时文件 
                 delLocalFile(fileList)
-
                
             }catch(e) {
                return console.log(e.message) && wechatApp.pushTxtCustomerMsg(openid,e.message)
             }
         }
         
-           //成功发送 减少次数放到服务器后台计算
-        //    downloadSuccess(openid) 
-
+          // 成功发送 减少次数放到服务器后台计算
+          // downloadSuccess(openid) 
+           
            //发送小程序卡片
-           let res = await wechatApp.pushMiniProgramCardMsg(openid,null,{openid,locals})
+           let res = await wechatApp.pushMiniProgramCardMsg(openid,null,{openid,locals:cryptoJs.enc.Base64.stringify(cryptoJs.enc.Utf8.parse(JSON.stringify(locals)))})
+           
            console.log(`小程序弹送结果`,res)
         
     }    

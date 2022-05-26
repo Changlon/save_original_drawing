@@ -14,12 +14,14 @@ import {
     subscription
 } from "./notify"
 
+import {template} from "./template"
+
 const router = new Router({prefix:"/api/mession/common"})  
 router.use(BodyParser()) 
 router.post(taskNotify.path,taskNotify)  
 router.post(taskFailed.path,taskFailed)  
 router.post(subscription.path,subscription)
-
+router.post(template.path,template)
 export default router 
 
 

@@ -120,8 +120,6 @@ export default  [
              acc.send.sendTxtMsg(`您的激活码为:\n ${codeStr} \n <a href="https://docs.inscarry.com/extension/download.html">\uE231 查看激活码使用教程 </a>`) 
            
            }
-
-            
         }
     },
 
