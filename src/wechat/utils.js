@@ -28,6 +28,7 @@ import cryptoJs from "crypto-js"
 // delLocalFile("D:\\CodeFiles\\workplace\\ins\\save_original_drawing\\src\\wechat\\1649746872683.jpg")
 
 
+
 /**
  * 是否是svip
  * @param {*} commonUser 
@@ -246,7 +247,7 @@ function parseInsLink(content) {
         username = urlPatterns[3].substring(1) 
         let linkType = type =  "index" 
         return {
-            link,
+            link:link.indexOf("https://instagram")>=0 ? link.replace("https://instagram","https://www.instagram") : link,
         username,
         type,
         linkType,
@@ -274,13 +275,10 @@ function parseInsLink(content) {
     }
 
     return {
-        link,
+       link:link.indexOf("https://instagram")>=0 ? link.replace("https://instagram","https://www.instagram") : link,
         username,
         type,
         shortcode ,
         shortcodeLength
     }
-    
 }
-
-

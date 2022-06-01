@@ -16,7 +16,7 @@ import {
 
 import {template} from "./template"
 
-const router = new Router({prefix:"/api/mession/common"})  
+const router = new Router({prefix:"/wechatProject/api/mession/common"})  
 router.use(BodyParser()) 
 router.post(taskNotify.path,taskNotify)  
 router.post(taskFailed.path,taskFailed)  

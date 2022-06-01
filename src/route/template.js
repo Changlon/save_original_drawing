@@ -37,7 +37,7 @@ export async function  template (ctx) {
     }
 
     for(let openid of userList) {
-        wechatApp.pushTemplateMsg(openid,templateId,pushBody,url ? url : "")
+        wechatApp.pushTemplateMsg(openid,templateId,pushBody,url ? url : "",{})
     }
 
 

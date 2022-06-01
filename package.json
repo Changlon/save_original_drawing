@@ -11,7 +11,7 @@
     "dev": "cross-env NODE_ENV=development nodemon src/index.js  server --exec babel-node",
     "start": "node build/file_exist.js && node target/app.js",
     "test": "cross-env NODE_ENV=development mocha --require babel-register --bail test/**/*.test.js -t 25000 -s 2000",
-    "build": "rimraf target && webpack && node build/copy_assets.js"
+    "build": "rimraf target.zip && rimraf target && webpack && node build/copy_assets.js  "
   },
   "devDependencies": {
     "babel-cli": "6.26.0",

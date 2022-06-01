@@ -22,7 +22,7 @@ import {
 } from "../common"
 
 import rq from "../api"
-import { stat } from "fs"
+
 
 export default  [
 
@@ -98,11 +98,11 @@ export default  [
         type:"text",
         pattern:/小程序/g,
         handler: async acc =>{ 
-            acc.send.sendTxtMsg("inscarry存图小程序") 
+            acc.send.sendTxtMsg("点击高级功能选择存图小程序") 
             // let res = await  acc.material.addLongTimeMaterial(path.join(__dirname,"./assets/mpSave.jpg"),"image")
             // console.log(res)   
             //发送小程序卡片
-            acc.send.pushMiniProgramCardMsg(acc.fromUser,null,{})
+            // acc.send.pushMiniProgramCardMsg(acc.fromUser,null,{})
             
         }
     },
@@ -114,7 +114,8 @@ export default  [
         handler: async acc =>{ 
             let res =  await requestCode(acc.fromUser) 
            if(res.code === 500) {
-             acc.send.sendTxtMsg(`${res.data} \n ${constant.NOT_VIP_NOTIFICATION.replace("{{APPID}}",acc.context.config.appId)}`) 
+               
+             acc.send.sendTxtMsg(`${res.data} \n ${constant.NOT_VIP_NOTIFICATION.replace("{{APPID}}",acc.context.config.appId).replace("{{REDIRECT_ROUTE}}",acc.context.opt.route)}`) 
            }else {
              let {codeStr } = res.data
              acc.send.sendTxtMsg(`您的激活码为:\n ${codeStr} \n <a href="https://docs.inscarry.com/extension/download.html">\uE231 查看激活码使用教程 </a>`) 
@@ -163,13 +164,12 @@ export default  [
                         try { 
                             let res = (await addDownloadTask(result))   
                             console.log(res)
-                            
                             if(res.code !== 0) {
-                            acc.send.pushTxtCustomerMsg(acc.fromUser,res.msg)
+                                acc.send.pushTxtCustomerMsg(acc.fromUser,res.data)
                             }
 
                         }catch(e) {
-                            // acc.send.pushTxtCustomerMsg(acc.fromUser, constant.SERVER_ERRROR_INFO)
+                            acc.send.pushTxtCustomerMsg(acc.fromUser, constant.SERVER_ERRROR_INFO)
                         }
                     
                     })

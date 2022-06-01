@@ -40,6 +40,7 @@ export function registe (opt) {
     })
 
     app.opt = opt 
+   
 
     return app 
 
@@ -94,7 +95,8 @@ export function injectService(wechatApp) {
 export  function injectMenu(wechatApp) {
     if(!wechatApp || typeof wechatApp !== "object" || !( wechatApp instanceof wechatPub ) ) return  
     if(!wechatApp.opt.wechatId) return console.debug("wechat - injectService : wechatApp need opt wechatId")  
-    let menuBtn = JSON.parse( JSON.stringify(menu).replaceAll("{{APPID}}",wechatApp.opt.appid)) 
+    let menuBtn = JSON.parse( JSON.stringify(menu).replaceAll("{{APPID}}",wechatApp.opt.appid).replaceAll("{{REDIRECT_ROUTE}}",wechatApp.opt.route)) 
+    // console.log(JSON.stringify(menuBtn))
     wechatApp.createMenu({"button":menuBtn})
     wechatApp.menu(async acc=>{ 
         const {eventKey} = acc    

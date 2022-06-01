@@ -6,6 +6,7 @@ import  commonRouter from "./route"
 
 
 
+
 (async()=>{
     
    const app = new Koa()  
@@ -14,9 +15,11 @@ import  commonRouter from "./route"
 
 //将wechatMap 配置到路由上
    app.use(async (ctx,next)=>{
-        ctx.wechatMap = wechatMap 
-        console.log(ctx.originalUrl)
-        if(ctx.originalUrl === "/MP_verify_Nau2fhdfHMELFA2W.txt") return ctx.body = "Nau2fhdfHMELFA2W"
+        ctx.wechatMap = wechatMap  
+        if(process.env.NODE_ENV.startsWith("dev")) {    
+         console.log(ctx.originalUrl)
+         if(ctx.originalUrl === "/MP_verify_Nau2fhdfHMELFA2W.txt") return ctx.body = "Nau2fhdfHMELFA2W"
+        }
         await  next() 
    })
 

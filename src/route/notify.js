@@ -69,7 +69,7 @@ export async  function subscription(ctx) {
                 data1:{value:insUsername}, 
                 data2:{value:date2StrFormat_$01(new Date(),"%Y-%MM-%DD")},
                 data3:{value:constant.SUBSCRIPTION_BEIZHU,color:"#ff0033"}
-            },`http://www.baidu.com?mediaKey=${mediaKey}`)
+            },`http://www.baidu.com?mediaKey=${mediaKey}`,{})
         }
     }
     
@@ -166,7 +166,7 @@ subscription.path = "/subscription"
           // downloadSuccess(openid) 
            
            //发送小程序卡片
-           let res = await wechatApp.pushMiniProgramCardMsg(openid,null,{openid,locals:cryptoJs.enc.Base64.stringify(cryptoJs.enc.Utf8.parse(JSON.stringify(locals)))})
+           let res = await wechatApp.pushMiniProgramCardMsg(openid,null,{timestamp:new Date().getTime(),openid,locals:cryptoJs.enc.Base64.stringify(cryptoJs.enc.Utf8.parse(JSON.stringify(locals)))})
            
            console.log(`小程序弹送结果`,res)
         
